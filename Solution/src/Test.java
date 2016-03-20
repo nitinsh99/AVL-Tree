@@ -312,7 +312,7 @@ public class Test
 				}
 				else
 				{
-					Node newPivot = pivot.right;
+					Node newPivot = pivot.left;
 					
 					Node pivotChildRight = pivot.left.right;
 					pivot.left.right = pivot;
@@ -350,7 +350,7 @@ public class Test
 				}
 				else
 				{
-					Node newPivot = pivot.left;
+					Node newPivot = pivot.right;
 					
 					Node pivotChildLeft = pivot.right.left;
 					pivot.right.left = pivot;
@@ -360,6 +360,41 @@ public class Test
 				}
 				
 			}
+		}
+		
+		if(type=="RL")
+		{
+			System.out.println("RL");
+			Node actualPivotParent = pivotParent;
+			Node actualPivot = pivot;
+			
+			pivotParent = pivot;
+			pivot = pivot.right;
+			
+			rotate("LL");
+			
+			pivotParent = actualPivotParent;
+			pivot = actualPivot;
+			
+			rotate("RR");
+			
+		}
+		
+		if(type=="LR")
+		{
+			//System.out.println("RL");
+			Node actualPivotParent = pivotParent;
+			Node actualPivot = pivot;
+			
+			pivotParent = pivot;
+			pivot = pivot.left;
+			
+			rotate("RR");
+			
+			pivotParent = actualPivotParent;
+			pivot = actualPivot;
+			
+			rotate("LL");
 		}
 		
 	}
