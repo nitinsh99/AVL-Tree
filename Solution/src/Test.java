@@ -12,9 +12,9 @@ class Node
 public class Test 
 {
 	
-	static Node pivot;
-	static Node pivotParent;
-	static boolean pivotFound;
+	static Node pivot=null;
+	static Node pivotParent=null;
+	static boolean pivotFound=false;
 	static Node mainroot;
 	
 	public static void main(String args[])
@@ -22,9 +22,8 @@ public class Test
 		//System.out.println("Hello World");
 		
 		Scanner sc = new Scanner(System.in);
-		pivot=mainroot = null;
-		pivotFound=false;
-		
+		//pivot=mainroot = null;
+		//pivotFound=false;
 		
 		while(true)
 		{
@@ -33,27 +32,36 @@ public class Test
 			{
 				break;
 			}
-			mainroot=insert(temp);
-			//printTree(mainroot);
-			//System.out.println();
-			
-			if(pivotFound)
-			{
-				findit(mainroot);
-				String type = findRotation(pivot,temp);
-				//System.out.println(pivot.val+" "+pivotParent.val+" "+type);
-				rotate(type);
-				//System.out.println(mainroot.left.val+" "+mainroot.val+" "+mainroot.right.val);
+			mainroot=insert(mainroot,temp);
 
-			}
-			printTree(mainroot);
 			
-			pivotFound=false;
 		}
+		printTree(mainroot);
+
 	}
 	
-	static Node insert(int val)
+	static void rotationCheck(int temp)
 	{
+		//printTree(mainroot);
+		//System.out.println();
+		
+		if(pivotFound)
+		{
+			findit(mainroot);
+			String type = findRotation(pivot,temp);
+			//System.out.println(pivot.val+" "+pivotParent.val+" "+type);
+			rotate(type);
+			//System.out.println(mainroot.left.val+" "+mainroot.val+" "+mainroot.right.val);
+
+		}
+		
+		pivotFound=false;
+	}
+	
+	static Node insert(Node root, int val)
+	{
+		
+		
 	   Node temp  = new Node();
 	   
 	   temp.val=val;
@@ -69,6 +77,7 @@ public class Test
 	   else
 	   {
 		    insertIt(mainroot,temp);
+		    rotationCheck(val);
 		    return mainroot;
 
 	   }
