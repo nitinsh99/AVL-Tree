@@ -278,7 +278,7 @@ public class Test
 		}
 		catch(NullPointerException n)
 		{
-			return "dude";
+			return "duder";
 		}
 		return "";
 		
