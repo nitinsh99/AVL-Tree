@@ -12,10 +12,10 @@ class Node
 public class Test 
 {
 	
-	static Node pivot=null;
+	public static Node pivot=null;
 	static Node pivotParent=null;
 	static boolean pivotFound=false;
-	static Node mainroot;
+	static Node mainroot=null;
 	
 	public static void main(String args[])
 	{
@@ -25,6 +25,8 @@ public class Test
 		//pivot=mainroot = null;
 		//pivotFound=false;
 		
+		Node ultra=null;
+		
 		while(true)
 		{
 			int temp = sc.nextInt();
@@ -32,11 +34,11 @@ public class Test
 			{
 				break;
 			}
-			mainroot=insert(mainroot,temp);
+			ultra=insert(mainroot,temp);
 
 			
 		}
-		printTree(mainroot);
+		printTree(ultra);
 
 	}
 	
@@ -69,18 +71,19 @@ public class Test
 	   temp.left=null;
 	   temp.right=null;
 	   
-	   if(mainroot == null)
+	   if(root == null)
 	   {
-		   mainroot=temp;
-		   return mainroot;
+		   root=temp;
+		   mainroot=root;
 	   }
 	   else
 	   {
-		    insertIt(mainroot,temp);
+		    mainroot=insertIt(root,temp);
 		    rotationCheck(val);
-		    return mainroot;
 
 	   }
+	    return mainroot;
+
 	}
 	
 	static Node insertIt(Node root, Node temp)
@@ -186,8 +189,8 @@ public class Test
 		}
 		
 		int bf = Math.abs(leftHeight-rightHeight);
-		System.out.println(subject.val);
-		System.out.println(bf);
+		//System.out.println(subject.val);
+		//System.out.println(bf);
 		if(bf>1)
 		{
 			return true;
@@ -207,8 +210,31 @@ public class Test
 			return;
 		}
 		
+		Node subject=root;
+		int bf=0;
+		if(subject.left!=null && subject.right!=null)
+		{
+			bf=subject.left.ht-subject.right.ht;
+			
+			
+		}
+		else if(subject.right==null && subject.left!=null)
+		{
+			bf= subject.left.ht;
+
+		}
+		else if(subject.left==null && subject.right!=null)
+		{
+			bf= subject.right.ht;
+
+		}
+		else
+		{
+			bf=0;
+		}
+		
 		printTree(root.left);
-		System.out.print(root.val+" ");
+		System.out.print(root.val+" BF("+bf+") ");
 		printTree(root.right);
 	}
 
@@ -226,15 +252,19 @@ public class Test
 				subject.ht= subject.right.ht+1;
 			}
 		}
-		else if(subject.right==null)
+		else if(subject.right==null && subject.left!=null)
 		{
 			subject.ht= subject.left.ht+1;
 
 		}
-		else
+		else if(subject.left==null && subject.right!=null)
 		{
 			subject.ht= subject.right.ht+1;
 
+		}
+		else
+		{
+			subject.ht=1;
 		}
 		
 	}
@@ -305,6 +335,9 @@ public class Test
 				pivot.left.right = pivot;
 				pivot.left = pivotChildRight;
 				mainroot = newPivot;
+				increaseHeight(newPivot.right);
+
+				increaseHeight(newPivot);
 				
 			}
 			else
@@ -318,6 +351,10 @@ public class Test
 					pivot.left.right = pivot;
 					pivot.left = pivotChildRight;
 					pivotParent.left=newPivot;
+					increaseHeight(newPivot.right);
+
+					increaseHeight(newPivot);
+					increaseHeight(pivotParent);
 				}
 				else
 				{
@@ -327,6 +364,11 @@ public class Test
 					pivot.left.right = pivot;
 					pivot.left = pivotChildRight;
 					pivotParent.right=newPivot;
+					increaseHeight(newPivot.right);
+
+					increaseHeight(newPivot);
+					increaseHeight(pivotParent);
+
 					
 				}
 				
@@ -343,6 +385,8 @@ public class Test
 				pivot.right.left = pivot;
 				pivot.right = pivotChildLeft;
 				mainroot = newPivot;
+				increaseHeight(newPivot.left);
+				increaseHeight(newPivot);
 				
 			}
 			else
@@ -356,6 +400,11 @@ public class Test
 					pivot.right.left = pivot;
 					pivot.right = pivotChildLeft;
 					pivotParent.right=newPivot;
+					increaseHeight(newPivot.left);
+					increaseHeight(newPivot);
+					increaseHeight(pivotParent);
+
+
 				}
 				else
 				{
@@ -365,6 +414,12 @@ public class Test
 					pivot.right.left = pivot;
 					pivot.right = pivotChildLeft;
 					pivotParent.left=newPivot;
+					increaseHeight(newPivot.left);
+
+					increaseHeight(newPivot);
+					increaseHeight(pivotParent);
+
+
 					
 				}
 				
@@ -373,7 +428,7 @@ public class Test
 		
 		if(type=="RL")
 		{
-			System.out.println("RL");
+			//System.out.println("RL");
 			Node actualPivotParent = pivotParent;
 			Node actualPivot = pivot;
 			
